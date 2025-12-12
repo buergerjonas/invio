@@ -7,7 +7,10 @@
 	"name": "invio",
 	"main": ".open-next/worker.js",
 	"compatibility_date": "2025-10-08",
-	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
 	"assets": {
 		"binding": "ASSETS",
 		"directory": ".open-next/assets"
@@ -15,5 +18,18 @@
 	"observability": {
 		"enabled": true
 	},
-	"upload_source_maps": true
+	"upload_source_maps": true,
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "invio-db",
+			"database_id": "your-database-id-here"
+		},
+		{
+			"binding": "invio_db",
+			"database_name": "invio-db",
+			"database_id": "c880918e-c4df-4fa2-be08-8db38fbf1d62",
+			"remote": true
+		}
+	]
 }

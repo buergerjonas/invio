@@ -1,63 +1,186 @@
-# Next.js Framework Starter
+# Invio - Personal Finance Automation Platform
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/next-starter-template)
+A comprehensive personal finance automation platform built with Next.js, Cloudflare Workers, and Cloudflare D1 database.
 
-<!-- dash-content-start -->
+## 🎯 Vision
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It's deployed on Cloudflare Workers as a [static website](https://developers.cloudflare.com/workers/static-assets/).
+Invio is designed to be a complete personal finance automation platform that:
+- Designs personalized investment strategies tailored to each user's context
+- Manages account structure (401k/IRA/Roth/Taxable/etc.)
+- Provides ongoing guidance, alerts, and optimization
+- Visualizes paths to Coast FIRE/retirement
+- Helps users stay disciplined with behavior nudges
 
-This template uses [OpenNext](https://opennext.js.org/) via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare), which works by taking the Next.js build output and transforming it, so that it can run in Cloudflare Workers.
+Think of it as: **"Portfolio Visualizer" × "Empower" × "NewRetirement"** with simple, trustworthy education.
 
-<!-- dash-content-end -->
+## 🚀 Features
 
-Outside of this repo, you can start a new project with this template using [C3](https://developers.cloudflare.com/pages/get-started/c3/) (the `create-cloudflare` CLI):
+### ✅ Implemented
+
+- **Authentication System** - Email/password authentication with session management
+- **User Management** - User accounts with profile information
+- **Subscription Tiers** - Free, Pro, Plus, and Lifetime plans with feature gating
+- **Dashboard** - Clean, modern dashboard with navigation
+- **Investment Strategy Designer** - Questionnaire-based strategy generation with:
+  - Investment ladder (priority order)
+  - Account priorities
+  - Asset allocation recommendations
+  - Contribution suggestions
+  - Timeline projections
+
+### 🚧 Coming Soon
+
+- **Account Setup Assistant** - Step-by-step guidance for opening and funding accounts
+- **Tax Optimizer** - Asset location optimization to minimize taxes
+- **Retirement Planner** - FIRE, Coast FIRE, and traditional retirement calculators
+- **Portfolio Tracker** - Track investments and compare vs targets
+- **AI Portfolio Assistant** - AI-powered portfolio explanations and optimizations
+- **Scenario Engine** - "What if" simulations for major life events
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Runtime**: Cloudflare Workers
+- **Database**: Cloudflare D1 (SQLite)
+- **Styling**: Tailwind CSS 4
+- **Language**: TypeScript
+- **Deployment**: Cloudflare Workers via OpenNext
+
+## 📦 Getting Started
+
+See [SETUP.md](./SETUP.md) for detailed setup instructions.
+
+### Quick Start
 
 ```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/next-starter-template
-```
-
-A live public deployment of this template is available at [https://next-starter-template.templates.workers.dev](https://next-starter-template.templates.workers.dev)
-
-## Getting Started
-
-First, run:
-
-```bash
+# Install dependencies
 npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
-```
 
-Then run the development server (using the package manager of your choice):
+# Set up D1 database (see SETUP.md for details)
+wrangler d1 create invio-db
 
-```bash
+# Update wrangler.jsonc with your database ID
+# Then initialize schema
+wrangler d1 execute invio-db --file=./db/schema.sql
+
+# Generate TypeScript types
+npm run cf-typegen
+
+# Run development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── app/
+│   ├── (auth)/              # Authentication pages
+│   │   ├── login/
+│   │   └── register/
+│   ├── api/                 # API routes
+│   │   ├── auth/            # Authentication endpoints
+│   │   └── strategy/        # Strategy generation
+│   ├── dashboard/           # Dashboard and features
+│   │   ├── strategy/        # Investment Strategy Designer
+│   │   ├── accounts/        # Account Setup Assistant
+│   │   ├── retirement/      # Retirement Planner
+│   │   ├── portfolio/       # Portfolio Tracker
+│   │   ├── tax/             # Tax Optimizer
+│   │   ├── ai/              # AI Portfolio Assistant
+│   │   ├── scenarios/       # Scenario Engine
+│   │   └── settings/        # User settings
+│   └── page.tsx             # Landing page
+├── lib/
+│   ├── auth.ts              # Authentication utilities
+│   ├── db.ts                # Database connection
+│   └── subscriptions.ts     # Subscription management
+db/
+└── schema.sql               # Database schema
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 💳 Subscription Tiers
 
-## Deploying To Production
+### Free
+- Basic calculators
+- Light strategy preview
+- Limited access
 
-| Command                           | Action                                       |
-| :-------------------------------- | :------------------------------------------- |
-| `npm run build`                   | Build your production site                   |
-| `npm run preview`                 | Preview your build locally, before deploying |
-| `npm run build && npm run deploy` | Deploy your production site to Cloudflare    |
-| `npm wrangler tail`               | View real-time logs for all Workers          |
+### Pro ($10/month)
+- Full investment strategy plan
+- Account setup assistant
+- PRO calculators
+- Step-by-step optimization
 
-## Learn More
+### Plus ($20/month)
+- Everything in Pro
+- Portfolio tracker
+- AI Portfolio Advisor
+- Tax optimizer
+- Personalized alerts
+- PDF reports
 
-To learn more about Next.js, take a look at the following resources:
+### Lifetime ($200 one-time)
+- Everything in Plus
+- Lifetime access
+- All future features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🗄️ Database Schema
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The platform uses Cloudflare D1 (SQLite) with the following main tables:
+- `users` - User accounts
+- `subscriptions` - Subscription management
+- `investment_strategies` - Generated strategies
+- `accounts` - Investment accounts
+- `account_setup_steps` - Setup progress tracking
+- `portfolios` - Portfolio tracking
+- `retirement_plans` - Retirement projections
+- `scenarios` - What-if simulations
+- `tax_optimizations` - Tax optimization results
+- `ai_conversations` - AI assistant conversations
+
+See `db/schema.sql` for the complete schema.
+
+## 🚢 Deployment
+
+```bash
+# Build and deploy to Cloudflare Workers
+npm run deploy
+```
+
+## 📝 Development
+
+```bash
+# Run development server
+npm run dev
+
+# Preview Cloudflare build locally
+npm run preview
+
+# Type check
+npm run check
+
+# Lint
+npm run lint
+```
+
+## 🔐 Authentication
+
+The platform uses cookie-based session authentication. Sessions are stored in HTTP-only cookies for security.
+
+## 📚 Next Steps
+
+1. **Payment Integration** - Add Stripe or Paddle for subscription payments
+2. **Portfolio Integration** - Connect with Plaid/Truelayer for account linking
+3. **AI Integration** - Add Cloudflare AI or OpenAI for portfolio assistant
+4. **Email Notifications** - Set up Cloudflare Email Workers for alerts
+5. **PDF Generation** - Add PDF report generation for strategies
+6. **Advanced Features** - Implement remaining modules
+
+## 📄 License
+
+Private - All rights reserved
+
+## 🤝 Contributing
+
+This is a private project. For questions or suggestions, please contact the maintainer.
